@@ -82,7 +82,7 @@ ObjNode	*newObj;
 	
 	SetObjectCollisionBounds(newObj,10,-7,-15,15,15,-15);
 	
-	newObj->PickUpCollisionRadius = newObj->Radius * 4.0f;	// set pickup radius
+	newObj->PickUpCollisionRadius = newObj->Radius * gGamePrefs.pickUpCollisionRadius;
 	newObj->WhoHasPickUp = nil;					// noone is holding this yet
 	newObj->EggIsInPortal = false;				// egg isn't in portal
 	newObj->Kind = itemPtr->parm[0];			// remember species of egg
@@ -476,10 +476,3 @@ int	i;
 
 	SeeIfAllEggSpeciesRecovered();
 }
-
-
-
-
-
-
-

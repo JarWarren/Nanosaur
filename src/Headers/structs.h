@@ -314,7 +314,8 @@ typedef struct
 	Boolean	nanosaurTeethFix;
 	Boolean	force4x3;
 	KeyBinding keys[NUM_CONTROL_NEEDS];
+	int maxEnemies;
+	float pickUpCollisionRadius;
 }PrefsType;
 
 #define PREFS_MAGIC "Nanosaur Prefs v5"
-

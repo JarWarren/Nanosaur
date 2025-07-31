@@ -65,6 +65,8 @@ void InitDefaultPrefs(void)
 	gGamePrefs.ambientSounds = true;
 	gGamePrefs.nanosaurTeethFix = true;
 	gGamePrefs.whiteSky = true;
+	gGamePrefs.maxEnemies = 8;
+	gGamePrefs.pickUpCollisionRadius = 4.0f;
 
 	SDL_memcpy(gGamePrefs.keys, kDefaultKeyBindings, sizeof(gGamePrefs.keys));
 	_Static_assert(sizeof(kDefaultKeyBindings) == sizeof(gGamePrefs.keys), "size mismatch: default keybindings / prefs keybinings");

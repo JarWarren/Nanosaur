@@ -1,5 +1,4 @@
 #include "game.h"
-extern int MAX_ENEMIES;
 
 #define MAX_CHOICES 8
 
@@ -52,20 +51,25 @@ static void Callback_Antialiasing(void);
 static void Callback_DebugInfo(void);
 static void Callback_Done(void);
 static void Callback_MaxEnemies(void);
+static void Callback_PickUpCollisionRadius(void);
 
 static char gDisplayNameBuffers[MAX_CHOICES][64];
 
-static const int kMaxEnemiesChoices[] = {1, 3, 5, 8, 13, 21, 30, 55}; // 30 instead of 34 because it lines up with extreme mode
-static const char* kMaxEnemiesLabels[] = {"1", "3", "5", "8", "13", "21", "30", "55"};
-static Byte gMaxEnemiesIndex = 0;
+static const int kMaxEnemiesChoices[] = {0, 1, 3, 5, 8, 13, 21, 30}; // 30 instead of 34 because it lines up with extreme mode
+static Byte gMaxEnemiesIndex = 4; // default to 8 enemies (easy mode)
+
+static Byte gPickUpCollisionRadiusIndex = 0;
+static const float kPickUpCollisionRadiusChoices[] = {4.0f, 40.0f};
 
 static SettingEntry gSettingEntries[] =
 {
-	{nil							, "Configure Controls"	, Callback_EnterControls,	0,	{ NULL } },
-	{nil							, nil					, nil,						0,  { NULL } },
-	{&gGamePrefs.extreme			, "Game Difficulty"		, Callback_Difficulty,		2,	{ "EASY", "EXTREME!" } },
-	{nil							, nil					, nil,						0,  { NULL } },
-{&gMaxEnemiesIndex, "Max Enemies", Callback_MaxEnemies, MAX_CHOICES, { "1", "3", "5", "8", "13", "21", "30", "55" } },
+	{nil, "Configure Controls", Callback_EnterControls, 0, { NULL } },
+	{nil, nil, nil, 0, { NULL } },
+	{&gGamePrefs.extreme, "Game Difficulty", Callback_Difficulty, 2, { "EASY", "EXTREME!" } },
+	{nil, nil, nil, 0, { NULL } },
+	{&gMaxEnemiesIndex, "Max Enemies", Callback_MaxEnemies, MAX_CHOICES, {"0", "1", "3", "5", "8", "13", "21", "30" } },
+	{&gPickUpCollisionRadiusIndex, "Pickup Radius", Callback_PickUpCollisionRadius, 2, {"NORMAL", "WIDE"} },
+{nil, nil, nil, 0, { NULL } },
 	{&gGamePrefs.music				, "Music"				, Callback_Music,			2,	{ "NO", "YES" }, },
 	{&gGamePrefs.ambientSounds		, "Ambient Sounds"		, nil,						2,	{ "NO", "YES" }, },
 	{nil							, nil					, nil,						0,  { NULL } },
@@ -151,7 +155,7 @@ static void Callback_Difficulty(void)
 	gMaxEnemiesIndex = 0;
 	for (int i = 0; i < MAX_CHOICES; i++)
 	{
-		if (MAX_ENEMIES == kMaxEnemiesChoices[i])
+		if (gGamePrefs.maxEnemies == kMaxEnemiesChoices[i])
 		{
 			gMaxEnemiesIndex = i;
 			break;
@@ -213,7 +217,12 @@ static void Callback_Done(void)
 
 static void Callback_MaxEnemies(void)
 {
-	MAX_ENEMIES = kMaxEnemiesChoices[gMaxEnemiesIndex];
+	gGamePrefs.maxEnemies = kMaxEnemiesChoices[gMaxEnemiesIndex];
+}
+
+static void Callback_PickUpCollisionRadius(void)
+{
+	gGamePrefs.pickUpCollisionRadius = kPickUpCollisionRadiusChoices[gPickUpCollisionRadiusIndex];
 }
 
 static void DrawRow(
@@ -598,14 +607,6 @@ void DoSettingsScreen(void)
 	float gamma = 0;
 
 	QD3D_CalcFramesPerSecond();
-
-	gMaxEnemiesIndex = 0;
-	for (int i = 0; i < MAX_CHOICES; i++) {
-		if (MAX_ENEMIES == kMaxEnemiesChoices[i]) {
-			gMaxEnemiesIndex = i;
-			break;
-		}
-	}
 
 	while (gSettingsState != kSettingsState_Off)
 	{

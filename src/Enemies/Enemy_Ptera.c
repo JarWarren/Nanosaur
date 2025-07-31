@@ -74,7 +74,7 @@ Boolean AddEnemy_Ptera(TerrainItemEntryType *itemPtr, long x, long z)
 {
 ObjNode	*newObj;
 
-	if (gNumEnemies >= MAX_ENEMIES)				// keep from getting absurd
+	if (gNumEnemies >= gGamePrefs.maxEnemies)				// keep from getting absurd
 		return(false);
 
 	if (!(itemPtr->parm[3] & 1))				// see if always add 

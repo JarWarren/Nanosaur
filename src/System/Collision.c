@@ -543,10 +543,9 @@ ObjNode	*thisNode;
 			goto next;
 	
 				/* SEE IF POINT WITHIN BOUNDING SPHERE (PLUS A LITTLE) OF PICKUP OBJ */
-				
-		if (CalcQuickDistance(thePt->x,thePt->z,thisNode->Coord.x,thisNode->Coord.z) <= thisNode->PickUpCollisionRadius)
-			return(thisNode);
-				
+			if (CalcQuickDistance(thePt->x,thePt->z,thisNode->Coord.x,thisNode->Coord.z) <= gGamePrefs.pickUpCollisionRadius)
+				return(thisNode);
+
 next:	
 		thisNode = thisNode->NextNode;							// next target node
 	}while(thisNode != nil);
