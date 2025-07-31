@@ -1,6 +1,7 @@
 #include "game.h"
+extern int MAX_ENEMIES;
 
-#define MAX_CHOICES 16
+#define MAX_CHOICES 8
 
 static const uint32_t kBGColor		= 0x000000;
 static const uint32_t kFGColor		= 0xa0a0a0;
@@ -50,8 +51,13 @@ static void Callback_VSync(void);
 static void Callback_Antialiasing(void);
 static void Callback_DebugInfo(void);
 static void Callback_Done(void);
+static void Callback_MaxEnemies(void);
 
 static char gDisplayNameBuffers[MAX_CHOICES][64];
+
+static const int kMaxEnemiesChoices[] = {1, 3, 5, 8, 13, 21, 30, 55}; // 30 instead of 34 because it lines up with extreme mode
+static const char* kMaxEnemiesLabels[] = {"1", "3", "5", "8", "13", "21", "30", "55"};
+static Byte gMaxEnemiesIndex = 0;
 
 static SettingEntry gSettingEntries[] =
 {
@@ -59,6 +65,7 @@ static SettingEntry gSettingEntries[] =
 	{nil							, nil					, nil,						0,  { NULL } },
 	{&gGamePrefs.extreme			, "Game Difficulty"		, Callback_Difficulty,		2,	{ "EASY", "EXTREME!" } },
 	{nil							, nil					, nil,						0,  { NULL } },
+{&gMaxEnemiesIndex, "Max Enemies", Callback_MaxEnemies, MAX_CHOICES, { "1", "3", "5", "8", "13", "21", "30", "55" } },
 	{&gGamePrefs.music				, "Music"				, Callback_Music,			2,	{ "NO", "YES" }, },
 	{&gGamePrefs.ambientSounds		, "Ambient Sounds"		, nil,						2,	{ "NO", "YES" }, },
 	{nil							, nil					, nil,						0,  { NULL } },
@@ -141,6 +148,15 @@ static void Callback_EnterControls(void)
 static void Callback_Difficulty(void)
 {
 	SetProModeSettings(gGamePrefs.extreme);
+	gMaxEnemiesIndex = 0;
+	for (int i = 0; i < MAX_CHOICES; i++)
+	{
+		if (MAX_ENEMIES == kMaxEnemiesChoices[i])
+		{
+			gMaxEnemiesIndex = i;
+			break;
+		}
+	}
 }
 
 static void Callback_Music(void)
@@ -193,6 +209,11 @@ static void Callback_Done(void)
 			gSettingsState = kSettingsState_Off;
 			break;
 	}
+}
+
+static void Callback_MaxEnemies(void)
+{
+	MAX_ENEMIES = kMaxEnemiesChoices[gMaxEnemiesIndex];
 }
 
 static void DrawRow(
@@ -577,6 +598,14 @@ void DoSettingsScreen(void)
 	float gamma = 0;
 
 	QD3D_CalcFramesPerSecond();
+
+	gMaxEnemiesIndex = 0;
+	for (int i = 0; i < MAX_CHOICES; i++) {
+		if (MAX_ENEMIES == kMaxEnemiesChoices[i]) {
+			gMaxEnemiesIndex = i;
+			break;
+		}
+	}
 
 	while (gSettingsState != kSettingsState_Off)
 	{
