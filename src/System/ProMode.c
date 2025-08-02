@@ -7,7 +7,6 @@
 
 int		PRO_MODE;
 int		SUPERTILE_ACTIVE_RANGE;
-int		MAX_ENEMIES;
 int		MAX_PTERA;
 int		MAX_REX;
 int		MAX_SPITTER;
@@ -27,7 +26,7 @@ void SetProModeSettings(int pro)
 {
 	PRO_MODE					= pro;
 	SUPERTILE_ACTIVE_RANGE		= pro ? 4 : 3;
-	MAX_ENEMIES					= pro ? 30 : 8;
+	gGamePrefs.maxEnemies		= pro ? 30 : 8;
 	MAX_PTERA					= pro ? 10 : 2;
 	MAX_REX						= pro ? 8 : 2;
 	MAX_SPITTER					= pro ? 2 : 12;  // weird... but these values were in the original source

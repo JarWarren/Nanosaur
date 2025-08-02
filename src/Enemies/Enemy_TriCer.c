@@ -85,7 +85,7 @@ Boolean AddEnemy_Tricer(TerrainItemEntryType *itemPtr, long x, long z)
 {
 ObjNode	*newObj;
 
-	if (gNumEnemies >= MAX_ENEMIES)					// keep this from getting absurd
+	if (gNumEnemies >= gGamePrefs.maxEnemies)					// keep this from getting absurd
 		return(false);
 
 	if (itemPtr)									// (itemptr == nil if in bush)
