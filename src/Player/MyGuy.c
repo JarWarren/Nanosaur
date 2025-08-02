@@ -825,6 +825,21 @@ static void UpdatePlayer(ObjNode *theNode)
 		StartMyShield(gPlayerObj);
 		gFuel = MAX_FUEL_CAPACITY;
 		gInfobarUpdateBits |= UPDATE_FUEL;
+	} else
+	{
+		if (!gGamePrefs.finiteAmmo)
+		{
+			GetCheatWeapons();
+		}
+		if (!gGamePrefs.finiteFuel)
+		{
+			gFuel = MAX_FUEL_CAPACITY;
+			gInfobarUpdateBits |= UPDATE_FUEL;
+		}
+		if (!gGamePrefs.finiteHealth)
+		{
+			GetHealth(1);
+		}
 	}
 }
 

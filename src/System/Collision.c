@@ -543,7 +543,7 @@ ObjNode	*thisNode;
 			goto next;
 	
 				/* SEE IF POINT WITHIN BOUNDING SPHERE (PLUS A LITTLE) OF PICKUP OBJ */
-			if (CalcQuickDistance(thePt->x,thePt->z,thisNode->Coord.x,thisNode->Coord.z) <= gGamePrefs.pickUpCollisionRadius)
+			if (CalcQuickDistance(thePt->x,thePt->z,thisNode->Coord.x,thisNode->Coord.z) <= thisNode->PickUpCollisionRadius)
 				return(thisNode);
 
 next:	
