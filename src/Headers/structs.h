@@ -316,6 +316,9 @@ typedef struct
 	KeyBinding keys[NUM_CONTROL_NEEDS];
 	int maxEnemies;
 	float pickUpCollisionRadius;
+	Boolean finiteFuel;
+	Boolean finiteAmmo;
+	Boolean finiteHealth;
 }PrefsType;
 
 #define PREFS_MAGIC "Nanosaur Prefs v5"

@@ -59,38 +59,41 @@ static const int kMaxEnemiesChoices[] = {0, 1, 3, 5, 8, 13, 21, 30}; // 30 inste
 static Byte gMaxEnemiesIndex = 4; // default to 8 enemies (easy mode)
 
 static Byte gPickUpCollisionRadiusIndex = 0;
-static const float kPickUpCollisionRadiusChoices[] = {4.0f, 40.0f};
-
+static const float kPickUpCollisionRadiusChoices[] = {4.0f, 16.0f};
 static SettingEntry gSettingEntries[] =
 {
 	{nil, "Configure Controls", Callback_EnterControls, 0, { NULL } },
 	{nil, nil, nil, 0, { NULL } },
 	{&gGamePrefs.extreme, "Game Difficulty", Callback_Difficulty, 2, { "EASY", "EXTREME!" } },
-	{nil, nil, nil, 0, { NULL } },
+	// {nil, nil, nil, 0, { NULL } },
 	{&gMaxEnemiesIndex, "Max Enemies", Callback_MaxEnemies, MAX_CHOICES, {"0", "1", "3", "5", "8", "13", "21", "30" } },
-	{&gPickUpCollisionRadiusIndex, "Pickup Radius", Callback_PickUpCollisionRadius, 2, {"NORMAL", "WIDE"} },
-{nil, nil, nil, 0, { NULL } },
+	{&gGamePrefs.finiteAmmo, "Infinite Ammo", NULL, 2, { "YES", "NO" } },
+	{&gGamePrefs.finiteFuel, "Infinite Fuel", NULL, 2, { "YES", "NO" } },
+	{&gGamePrefs.finiteHealth, "Infinite Health", NULL, 2, { "YES", "NO" } },
+	{&gPickUpCollisionRadiusIndex, "Easy Egg Pickup", Callback_PickUpCollisionRadius, 2, {"NO", "YES"} },
+	// {nil, nil, nil, 0, { NULL } },
 	{&gGamePrefs.music				, "Music"				, Callback_Music,			2,	{ "NO", "YES" }, },
 	{&gGamePrefs.ambientSounds		, "Ambient Sounds"		, nil,						2,	{ "NO", "YES" }, },
-	{nil							, nil					, nil,						0,  { NULL } },
+	// {nil							, nil					, nil,						0,  { NULL } },
 	{&gGamePrefs.fullscreen			, "Fullscreen"			, Callback_Fullscreen,		2,	{ "NO", "YES" }, },
 	{&gGamePrefs.vsync				, "V-Sync"				, Callback_VSync,			2,	{ "NO", "YES" }, },
 	{&gGamePrefs.force4x3			, "Aspect Ratio"		, NULL,						2,	{ "FILL SCREEN", "FORCE 4:3" }, },
 	{&gGamePrefs.displayNumMinus1	, "Preferred Display"	, Callback_Fullscreen,		1,	{ "DEFAULT" }, },
 	{&gGamePrefs.antialiasingLevel	, "Antialiasing"		, Callback_Antialiasing,	4,	{ "NO", "MSAA 2x", "MSAA 4x", "MSAA 8x" }, },
-	{nil							, nil					, nil,						0,  { NULL } },
+	// {nil							, nil					, nil,						0,  { NULL } },
 	{&gGamePrefs.highQualityTextures, "Texture Filtering"	, nil,						2,	{ "NO", "YES" }, },
 	{&gGamePrefs.canDoFog			, "Fog"					, nil,						2,	{ "NO", "YES" }, },
 	{&gGamePrefs.whiteSky			, "Sky Color"			, nil,						2,	{ "BLACK", "WHITE" } },
 	{&gGamePrefs.nanosaurTeethFix	, "Nano's Dentist Is"	, nil,						2,	{ "EXTINCT", "ALIVE" } },
-//	{&gGamePrefs.shadows			, "Shadow Decals"		, nil,						2,	{ "NO", "YES" }, },
-//	{&gGamePrefs.dust				, "Dust"				, nil,						2,	{ "NO", "YES" }, },
+	//	{&gGamePrefs.shadows			, "Shadow Decals"		, nil,						2,	{ "NO", "YES" }, },
+	//	{&gGamePrefs.dust				, "Dust"				, nil,						2,	{ "NO", "YES" }, },
 	{nil							, nil					, nil,						0,  { NULL } },
 	{&gGamePrefs.mainMenuHelp		, "Show Help in Main Menu"		, nil,				2,	{ "NO", "YES" }, },
 	{&gGamePrefs.debugInfoInTitleBar, "Debug Info in Title Bar",	Callback_DebugInfo,	2,  { "NO", "YES" } },
 	{nil							, nil					, nil,						0,  { NULL } },
 	{nil							, "Done"				, Callback_Done,			0,  { NULL } },
 };
+
 
 static const char* kInputNeedCaptions[NUM_CONTROL_NEEDS] =
 {
